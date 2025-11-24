@@ -10,20 +10,28 @@ Project Goals
         %d  Prints a signed decimal integer.
         %i  Prints a signed integer.
 	%%  Prints a percent sign.
-
+  
+<!-- Exemple d'utilisation -->
 Usage
     The function prototype is:
         int _printf(const char *format, ...);
         It returns the number of characters printed (excluding the null byte).
-
+        
+<!-- Requierements + environement de  travail-->
 Design and Structure
     For this project we used git and gcc on Ubuntu 20.04 LTS, it also follows a design to adhere to the Betty style guide.
 
 Core Files:
     main.h: Contains all function prototypes and the definition of the fmt_t structure.
     man_3_printf: The manual page for the _printf function.
-
+    
+<!-- Compilation command -->
 Compilation
     The code is compiled on Ubuntu 20.04 LTS using gcc with the following flags:
         gcc -Wall -Werror -Wextra -pedantic -std=gnu89 -Wno-format *.c
+        
+<!-- Exemple de tests avec resultats attendus + valgreed + valleur de retour -->
 
+<!-- Man page -->
+
+<!-- Flow chart -->
