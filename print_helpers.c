@@ -48,3 +48,60 @@ int print_percent(va_list ap)
 
 	return (1);
 }
+
+/**
+ * print_int - Prints a integer.
+ * @ap: va_list (not used).
+ *
+ * Return: number of charaters printed
+ */
+int print_int(va_list ap)
+{
+	int number = va_arg(ap, int);
+	unsigned int int_to_print;
+	unsigned int count = 0;
+
+	if (number < 0)
+	{
+		_putchar('-');
+		count++;
+		int_to_print = -number;
+	}
+	else
+	{
+		int_to_print = number;
+	}
+	if (number == 0)
+	{
+		_putchar('0');
+		count++;
+	}
+	else
+	{
+		count += print_int_helper(int_to_print);
+	}
+
+	return (count);
+}
+
+/**
+ * print_int_helper - Prints a integer the recursive way.
+ * @int_to_print: the int to print.
+ *
+ * Return: number of charaters printed
+ */
+int print_int_helper(int int_to_print)
+{
+	int count;
+
+	if (int_to_print == 0)
+	{
+		return (0);
+	}
+	else
+	{
+		count = print_int_helper(int_to_print / 10);
+		_putchar((int_to_print % 10) + '0');
+		return (count + 1);
+	}
+}
