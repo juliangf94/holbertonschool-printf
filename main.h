@@ -10,17 +10,19 @@
  */
 typedef struct specifier
 {
-	char *type;
-	void (*fonction)(va_list ap);
+	char type;
+	int (*fonction)(va_list ap);
 } specifier_t;
 
 int _putchar(char c);
 
 int _printf(const char *format, ...);
-int select_type(char *type, va_list ap);
-
+int select_type(char type, va_list ap);
+/** */
 int print_char(va_list ap);
 int print_string(va_list ap);
 int print_percent(va_list ap);
+int print_int(va_list ap);
+int print_int_helper(int int_to_print);
 
 #endif
