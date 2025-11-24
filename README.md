@@ -9,6 +9,7 @@ Project Goals
         %s  Prints a string of characters.
         %d  Prints a signed decimal integer.
         %i  Prints a signed integer.
+	%%  Prints a percent sign.
 
 Usage
     The function prototype is:
