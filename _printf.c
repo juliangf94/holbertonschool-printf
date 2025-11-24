@@ -40,21 +40,25 @@ int _printf(const char *format, ...)
  *
  * Return: Value returned by the matched print function.
  */
-int select_type(char *type, va_list ap)
+int select_type(char type, va_list ap)
 {
 	int i;
 	specifier_t funcs[] = {
-		{"c", print_char},
-		{"i", print_string},
-		{"%", print_percent},
-		{NULL, NULL},
+		{'c', print_char},
+		{'s', print_string},
+		{'i', print_int},
+		{'d', print_int},
+		{'%', print_percent},
+		{'\0', NULL},
 	};
 
-	for (i = 0; funcs[i].type != NULL; i++)
+	for (i = 0; funcs[i].type != '\0'; i++)
 	{
-		if (funcs[i].type[0] == type[0])
+		if (funcs[i].type == type)
 		{
 			return (funcs[i].fonction(ap));
 		}
 	}
+
+	return (-1);
 }
