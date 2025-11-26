@@ -23,7 +23,8 @@ int print_char(va_list ap)
  */
 int print_string(va_list ap)
 {
-	int i;
+	int i, j;
+	char str_null = ("Null");
 	char *string = va_arg(ap, char*);
 
 	if (string != NULL)
@@ -31,6 +32,11 @@ int print_string(va_list ap)
 		{
 			_putchar(string[i]);
 		}
+	else
+	{
+		for (j = 0; str_null[j] != '\0'; j++)
+			_putchar(str_null[j]);
+	}
 
 	return (i);
 }
