@@ -64,9 +64,9 @@ betty *.c *.h
 ```
 
 ## Example Usage
-	The function prototype is:
-		int _printf(const char *format, ...);
-		It returns the number of characters printed (excluding the null byte).
+The function prototype is:
+`int _printf(const char *format, ...);`
+It returns the number of characters printed (excluding the null byte).
 
 `main.c` demonstrates how `_printf` mirrors `printf` and returns the exact same character count:
 
@@ -93,13 +93,8 @@ Length:[42, -42]
 %c: H | %s: Holberton | %d: 42
 Both calls printed 42 and 42 chars
 ```
-To compile your test file with the custom library:
-```bash
-gcc -Wall -Werror -Wextra -pedantic -std=gnu89 main.c -L. -lholberton -o test_app
-./test_app
-```
 
-## Files
+# Files
 
 | File | Description |
 | --- | --- |
@@ -111,10 +106,10 @@ gcc -Wall -Werror -Wextra -pedantic -std=gnu89 main.c -L. -lholberton -o test_ap
 | `test/0-main.c` | Additional tests aligned with the Holberton checker. |
 
 
-## Man Page
+# Man Page
 The dedicated `man_3_printf` page will be added once every mandatory conversion is implemented
 
-## Test
+# Test
 - **Side-by-side comparison with `printf`**: `main.c` and `test/0-main.c` print identical strings through both functions and compare their return values.
 - **Valgrind (optional)**:
 
