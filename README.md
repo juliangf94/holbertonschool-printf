@@ -3,9 +3,13 @@ holbertonschool-printf
 # C - Custom printf Implementation
 
 ## Project Overview
-    This project consists of recreating the C standard library function `printf`. The goal is to understand how formatted output works internally by handling various format specifiers, managing variable arguments, and producing output exactly like the original function. Through this project, we explore low-level programming concepts such as buffers, variadic functions, and string manipulation.
+This project consists of recreating the C standard library function `printf`. 
+The goal is to understand how formatted output works internally by handling various format specifiers, managing variable arguments, 
+and producing output exactly like the original function. 
+Through this project, we explore low-level programming concepts such as buffers, variadic functions, and string manipulation.
 
-This project involves the collaborative creation of a custom function, _printf, that mimics the functionality of the standard C library's printf function. This deep dive focuses on mastering concepts such as variadic functions, formatted output generation, and using the write system call for low-level character output.
+This project involves the collaborative creation of a custom function, _printf, that mimics the functionality of the standard C library's printf function. 
+This deep dive focuses on mastering concepts such as variadic functions, formatted output generation, and using the write system call for low-level character output.
 
 The goal is to handle the basic set of format specifiers and provide accurate output, along with returning the correct number of characters printed.
 
@@ -18,7 +22,8 @@ int _printf(const char *format, ...);
 ```
 
 ## Supported Format Specifiers
-`_printf(const char *format, ...)` writes to `stdout` and returns the number of characters printed, just like the libc implementation. The mandatory specifiers currently supported are:
+`_printf(const char *format, ...)` writes to `stdout` and returns the number of characters printed, just like the libc implementation. 
+The mandatory specifiers currently supported are:
 
 | Specifier | Behavior | Helper |
 | --- | --- | --- |
