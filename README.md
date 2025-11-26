@@ -84,5 +84,7 @@ flowchart TB
     class B,G,I data;
     class F,AB,AD,BB decision;
     class AJ connector;
+```
 ```markdown
-![Flowchart] (./Downloads/diagram1.png)
+![Flowchart of the _printf function logic](./diagram2.png)
+```
