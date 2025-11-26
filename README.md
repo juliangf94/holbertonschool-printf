@@ -85,6 +85,3 @@ flowchart TB
     class F,AB,AD,BB decision;
     class AJ connector;
 ```
-```markdown
-![Flowchart of the _printf function logic](./diagram2.png)
-```
