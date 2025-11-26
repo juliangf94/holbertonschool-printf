@@ -1,6 +1,8 @@
 #ifndef MAIN_H
 #define MAIN_H
 
+#include <stdarg.h>
+
 /**
  * struct specifier - Associates a type string with a print function.
  * @type: Type identifier (e.g., "d", "i", "%").
@@ -8,13 +10,19 @@
  */
 typedef struct specifier
 {
-	char *type;
-	void (*fonction)(va_list ap);
+	char type;
+	int (*fonction)(va_list ap);
 } specifier_t;
 
-int _printf(const char *format, ...);
+int _putchar(char c);
 
-void print_char(va_list ap);
-void print_string(va_list ap);
-void print_percent(va_list ap);
+int _printf(const char *format, ...);
+int select_type(char type, va_list ap);
+/** */
+int print_char(va_list ap);
+int print_string(va_list ap);
+int print_percent(va_list ap);
+int print_int(va_list ap);
+int print_int_helper(int int_to_print);
+
 #endif
