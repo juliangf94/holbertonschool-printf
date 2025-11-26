@@ -96,9 +96,9 @@ int print_int(va_list ap)
  *
  * Return: number of charaters printed
  */
-int print_int_helper(int int_to_print)
+int print_int_helper(unsigned int int_to_print)
 {
-	int count;
+	unsigned int count;
 
 	if (int_to_print == 0)
 	{
