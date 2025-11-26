@@ -39,7 +39,6 @@ The dedicated `man_3_printf` page will be added once every mandatory conversion 
 # Flowchart of the _printf Function
 The following flowchart illustrates the main logic loop of the function, from the start to the processing of the characters and format specifiers.
 ```mermaid
-
 flowchart TB
     A["Start"] --> B[/"input: char, string, percent, decimal or int"/]
     A --> C["int _printf(const char *format, ...);"]
@@ -48,13 +47,15 @@ flowchart TB
     %%E --> F{"Is format == NULL?"}
         %% NULL check
         %% F -- YES --> G[/"return (-1)"/]
-        E --> AA(["Loop: i = 0, format[i] != '\\0', i++"])
+        E --> AA(["Loop: (i = 0, format[i] != '\\0', i++)"])
             %% Loop start
-            AA -- format[i] != '\0'--> AB{"Is format[i] a directive (%)?"}
+            AA -- format[i] != '\0';--> AB{"Is format[i] == '%'; (directive)?"}
                 %% Directive found
                 AB -- YES --> AC["i++ (move i to specifier)"]
-                AC --> ACA["update the character count (sum) with select_type function"]
-                        ACA --> AD{"Which specifier is it? c, s, %, i or d"}
+                AC --> ACA{"Is format[i] == '\0'"}
+                ACA -- YES --> ACB["return (-1);"]
+                ACA --> ACC["update the character count (sum) with select_type function"]
+                        ACC --> AD{"Which specifier is it? c, s, %, i or d"}
                             AD --> AE["'c' print a character"] & AF["'s' print a string"] & AG["'%' print an percent"] & AH["'d' print a decimal"] & AI["'i' print an int"]
                             AE --> AJ(("Keeps track of sum"))
                             AF --> AJ
@@ -63,11 +64,11 @@ flowchart TB
                             AI --> AJ
                             AJ --> AA
                 %% Directive not found, prints regular character
-                AB -- NO --> BA["_putchar(format[i])"]
-                BA --> BB{"sum++ (keep track of sum)" }
+                AB -- NO --> BA["_putchar(format[i]);"]
+                BA --> BB{"sum++; (keep track of sum)" }
                     BB --> AA
             %% Loop End    
-            AA -- format[i] == '\0'--> H["va_end(ap)"]
+            AA -- format[i] == '\0';--> H["va_end(ap)"]
             H --> I[/"Return (sum);"/]
 
     %% Style
@@ -79,9 +80,9 @@ flowchart TB
     classDef connector fill:#F2F527,stroke:#1D4ED8,stroke-width:3px,color:#1E3A8A, font-size:18px;
 
     class A start;
-    class C,D,E,AC,ACA,AE,AF,AG,AH,AI,BA,H process;
+    class C,D,E,AC,ACB,ACC,AE,AF,AG,AH,AI,BA,H process;
     class AA loop;
     class B,G,I data;
-    class F,AB,AD,BB decision;
+    class F,AB,AD,ACA,BB decision;
     class AJ connector;
 ```
