@@ -23,8 +23,8 @@ int print_char(va_list ap)
  */
 int print_string(va_list ap)
 {
-	int i, j;
-	char *str_null = ("Null");
+	int i;
+	char *str_null = "(null)";
 	char *string = va_arg(ap, char*);
 
 	if (string != NULL)
@@ -34,8 +34,8 @@ int print_string(va_list ap)
 		}
 	else
 	{
-		for (j = 0; str_null[j] != '\0'; j++)
-			_putchar(str_null[j]);
+		for (i = 0; str_null[i] != '\0'; i++)
+			_putchar(str_null[i]);
 	}
 
 	return (i);
@@ -96,9 +96,9 @@ int print_int(va_list ap)
  *
  * Return: number of charaters printed
  */
-int print_int_helper(int int_to_print)
+int print_int_helper(unsigned int int_to_print)
 {
-	int count;
+	unsigned int count;
 
 	if (int_to_print == 0)
 	{
