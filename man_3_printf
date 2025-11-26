@@ -1,13 +1,13 @@
-.TH _PRINTF 3 "Manual" "Custom C Library Functions"
+.TH _PRINTF 3 "NOVEMBER 28, 2025" "Manual" "Custom C Library Functions"
 .SH NAME
-_printf
+_printf - formatted output conversion
 
 _printf writes to `stdout` and returns the number of characters printed, just like the libc implementation.
 
 .SH SYNOPSIS
 #include "main.h"
 
-int_printf (const char *format, ...);
+int _printf (const char *format, ...);
 
 .SH DESCRIPTION
 The _printf() functions is a simplified custom implementation of the standard C library function printf().
