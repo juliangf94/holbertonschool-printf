@@ -24,7 +24,7 @@ int print_char(va_list ap)
 int print_string(va_list ap)
 {
 	int i, j;
-	char str_null = ("Null");
+	char *str_null = "(null)";
 	char *string = va_arg(ap, char*);
 
 	if (string != NULL)
