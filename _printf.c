@@ -21,7 +21,10 @@ int _printf(const char *format, ...)
 		if (format[i] == '%')
 		{
 			i++;
-			sum += select_type(format[i], ap) - 1;
+			if (format[i] != '\0')
+				sum += select_type(format[i], ap) - 1;
+			else
+				return (-1);
 		}
 		else
 		{
@@ -60,5 +63,7 @@ int select_type(char type, va_list ap)
 		}
 	}
 
-	return (-1);
+	_putchar('%');
+	_putchar(type);
+	return (2);
 }
