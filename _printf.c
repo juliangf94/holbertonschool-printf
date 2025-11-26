@@ -21,16 +21,15 @@ int _printf(const char *format, ...)
 		if (format[i] == '%')
 		{
 			i++;
-			if (format[i] != '\0')
-				sum += select_type(format[i], ap) - 1;
-			else
+			if (format[i] == '\0')
 				return (-1);
+			sum += select_type(format[i], ap);
 		}
 		else
 		{
 			_putchar(format[i]);
+			sum++;
 		}
-		sum++;
 	}
 	va_end(ap);
 	return (sum);
