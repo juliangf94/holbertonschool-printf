@@ -155,8 +155,9 @@ flowchart TB
                             -'X' print an unsigned hexadecimal<br/>
                             -'p' print a memory address/pointer<br/>
                             "]
-                            AD --> ADA["Any other specifier"] --> ADB["_puthcar('%');<BR/> _putchar(type); "] 
-                        AE & AF & ADB --> AG(("Keeps track of sum")) 
+                            AD --> ADA["Any other specifier"] 
+                            ADA--> ADB["_puthcar('%');<BR/> _putchar(type); "] --> ADC[/"return (2);"/] 
+                        AE & AF & ADC --> AG(("Keeps track of sum")) 
                         AG --> AA
                 %% Directive not found, prints regular character
                 AB -- NO --> BA["_putchar(format[i]);"]
@@ -177,7 +178,7 @@ flowchart TB
     class A start;
     class C,D,E,AC,ACC,ADA,ADB,AE,AF,BA,H process;
     class AA loop;
-    class B,I,ACB data;
+    class B,I,ACB,ADC data;
     class F,AB,AD,ACA,BB decision;
     class AG connector;
 ```
