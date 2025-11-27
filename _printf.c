@@ -51,6 +51,7 @@ int select_type(char type, va_list ap)
 		{'i', print_int},
 		{'d', print_int},
 		{'%', print_percent},
+		{'p', print_address},
 		{'\0', NULL},
 	};
 

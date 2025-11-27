@@ -24,5 +24,7 @@ int print_string(va_list ap);
 int print_percent(va_list ap);
 int print_int(va_list ap);
 int print_int_helper(unsigned int int_to_print);
+int print_address(va_list ap);
+int _print_hex_long(unsigned long int n);
 
 #endif
