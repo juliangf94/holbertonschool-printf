@@ -24,7 +24,7 @@ int print_char(va_list args);
 int print_string(va_list args);
 int print_percent(va_list args);
 int print_int(va_list args);
-int print_int_helper(unsigned int int_to_print, unsigned int base,
+int print_int_helper(unsigned long int int_to_print, unsigned int base,
 	 char *after_nine);
 /** print_helper_2.c */
 int print_unsigned_int(va_list args);

@@ -97,7 +97,7 @@ int print_int(va_list args)
  * @after_nine: character to print after 9
  * Return: number of charaters printed
  */
-int print_int_helper(unsigned int int_to_print, unsigned int base,
+int print_int_helper(unsigned long int int_to_print, unsigned int base,
 	char *after_nine)
 {
 	unsigned int count;

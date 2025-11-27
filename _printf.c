@@ -23,7 +23,7 @@ int _printf(const char *format, ...)
 			i++;
 			if (format[i] == '\0')
 				return (-1);
-			sum += select_type(format[i], ap);
+			sum += select_type(format[i], args);
 		}
 		else
 		{
