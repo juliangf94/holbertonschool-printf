@@ -1,45 +1,127 @@
 holbertonschool-printf
 
-# Recreating the printf function:
-    This project consists of recreating the C standard library function `printf`. The goal is to understand how formatted output works internally by handling various format specifiers, managing variable arguments, and producing output exactly like the original function. Through this project, we explore low-level programming concepts such as buffers, variadic functions, and string manipulation.
+# C - Custom printf Implementation
 
-# Project Goals:
-	Our function is designed to produce output according to a specified format string, writing to stdout. The current implementation handles the following mandatory conversion specifiers:
-		%c  Prints a single character.
-		%s  Prints a string of characters.
-		%d  Prints a signed decimal integer.
-		%i  Prints a signed integer.
-		%%  Prints a percent sign.
+## Project Overview
+This project consists of the collaborative recreation of the C standard library function printf. 
+The goal is to understand how formatted output works internally by handling various format specifiers, managing variable arguments, and producing output exactly like the original function.
 
-<!-- Exemple d'utilisation -->
-Usage:
-	The function prototype is:
-		int _printf(const char *format, ...);
-		It returns the number of characters printed (excluding the null byte).
+This deep dive focuses on mastering concepts such as variadic functions, formatted output generation, and using the write system call for low-level character output. 
+The implementation aims to accurately handle the basic set of format specifiers and return the exact number of characters printed.
 
-<!-- Requierements + environement de  travail-->
-Design and Structure:
-	For this project we used git and gcc on Ubuntu 20.04 LTS, it also follows a design to adhere to the Betty style guide.
+## Functionality
 
-Core Files:
-	main.h: Contains all function prototypes and the definition of the fmt_t structure.
-	man_3_printf: The manual page for the _printf function.
+The _printf function is declared as follows:
+```bash
+int _printf(const char *format, ...);
+```
+It writes to stdout and returns the number of characters printed, just like the libc implementation.
 
-<!-- Compilation command -->
-##
-Compilation:
-	The code is compiled on Ubuntu 20.04 LTS using gcc with the following flags:
-		gcc -Wall -Werror -Wextra -pedantic -std=gnu89 -Wno-format *.c
+## Supported Format Specifiers
+The _printf function writes to `stdout` and returns the number of characters printed, just like the libc implementation. 
+The mandatory specifiers currently supported are:
 
-<!-- Exemple de tests avec resultats attendus + valgreed + valleur de retour -->
+| Specifier | Behavior | Helper |
+| --- | --- | --- |
+| `%c` | Prints a single character (`int`). | `print_char` in `print_helpers.c` |
+| `%s` | Prints a string. `NULL` prints `(null)`. | `print_string` |
+| `%d` / `%i` | Prints a signed decimal integer. | `print_int` / `print_int_helper` |
+| `%%` | Prints `%`. | `print_percent` |
 
-## Man page
+The dispatching logic lives in `select_type` (inside `_printf.c`) and relies on the `specifier_t` structure defined in `main.h`.
+
+## Design Flow
+
+1. `_printf` walks the `format` string one character at a time.
+2. When `%` is encountered, it calls `select_type` to retrieve the correct helper function.
+3. The helper pulls the argument with `va_arg`, renders it as text, and pushes each character to `_putchar`.
+4. `_printf` accumulates the returned character counts so it can return the final number to the caller.
+
+This split keeps parsing in `_printf.c` and rendering in `print_helpers.c`, which makes adding new specifiers (`%b`, `%u`, `%o`, etc.) straightforward.
+
+# Installation and Usage
+
+## Prerequisites
+
+- A C compiler (e.g., GCC).
+
+- A UNIX-like environment (Linux, macOS, WSL).
+
+## Compilation
+
+To compile the `_printf project`, ensure you have all the necessary source files (`_printf.c`, `print_helpers.c`, and `main.h`) in the same directory. 
+Compile everything with `gcc` using the standard Holberton flags:
+
+1.  `Compile Object Files:` 
+```bash
+gcc -Wall -Wextra -Werror -pedantic -std=gnu89 -Wno-format *.c
+```
+
+2. `Run Betty on the entire code base when needed:`
+
+```bash
+betty *.c *.h
+```
+
+## Example Usage
+The function prototype is:
+`int _printf(const char *format, ...);`
+It returns the number of characters printed (excluding the null byte).
+
+`main.c` demonstrates how `_printf` mirrors `printf` and returns the exact same character count:
+
+```c
+#include "main.h"
+
+int main(void)
+{
+    int len = _printf("Length:[%d, %i]\n", 42, -42);
+    int len2 = printf("Length:[%d, %i]\n", 42, -42);
+
+    _printf("%%c: %c | %%s: %s | %%d: %d\n", 'H', "Holberton", len);
+    printf("Both calls printed %d and %d chars\n", len, len2);
+
+    return (0);
+}
+```
+
+Expected output:
+
+```
+Length:[42, -42]
+Length:[42, -42]
+%c: H | %s: Holberton | %d: 42
+Both calls printed 42 and 42 chars
+```
+
+# Files
+
+| File | Description |
+| --- | --- |
+| `main.h` | Public prototypes, definition of `specifier_t`, signatures for every helper. |
+| `_printf.c` | Implementation of `_printf` and the dispatcher. |
+| `print_helpers.c` | All helper functions dedicated to each format specifier. |
+| `_putchar.c` | Low-level write wrapper around `write(2)`. |
+| `main.c` | Simple demo program comparing `_printf` to `printf`. |
+| `test/0-main.c` | Additional tests aligned with the Holberton checker. |
+
+
+# Man Page
 The dedicated `man_3_printf` page will be added once every mandatory conversion is implemented
+
+# Test
+- **Side-by-side comparison with `printf`**: `main.c` and `test/0-main.c` print identical strings through both functions and compare their return values.
+- **Valgrind (optional)**:
+
+  ```bash
+  valgrind --leak-check=full ./a.out
+  ```
+
+- **Return value checks**: `_printf` should return `-1` whenever a specifier is unknown and otherwise return the exact number of printed characters. Extend the scenarios under `test/` to cover empty strings, `NULL`, very large/small integers, etc.
 
 # Flowchart of the _printf Function
 The following flowchart illustrates the main logic loop of the function, from the start to the processing of the characters and format specifiers.
 ```mermaid
-
 flowchart TB
     A["Start"] --> B[/"input: char, string, percent, decimal or int"/]
     A --> C["int _printf(const char *format, ...);"]
@@ -48,13 +130,15 @@ flowchart TB
     %%E --> F{"Is format == NULL?"}
         %% NULL check
         %% F -- YES --> G[/"return (-1)"/]
-        E --> AA(["Loop: i = 0, format[i] != '\\0', i++"])
+        E --> AA(["Loop: (i = 0, format[i] != '\\0', i++)"])
             %% Loop start
-            AA -- format[i] != '\0'--> AB{"Is format[i] a directive (%)?"}
+            AA -- format[i] != '\0';--> AB{"Is format[i] == '%'; (directive)?"}
                 %% Directive found
                 AB -- YES --> AC["i++ (move i to specifier)"]
-                AC --> ACA["update the character count (sum) with select_type function"]
-                        ACA --> AD{"Which specifier is it? c, s, %, i or d"}
+                AC --> ACA{"Is format[i] == '\0'"}
+                ACA -- YES --> ACB["return (-1);"]
+                ACA --> ACC["update the character count (sum) with select_type function"]
+                        ACC --> AD{"Which specifier is it? c, s, %, i or d"}
                             AD --> AE["'c' print a character"] & AF["'s' print a string"] & AG["'%' print an percent"] & AH["'d' print a decimal"] & AI["'i' print an int"]
                             AE --> AJ(("Keeps track of sum"))
                             AF --> AJ
@@ -63,11 +147,11 @@ flowchart TB
                             AI --> AJ
                             AJ --> AA
                 %% Directive not found, prints regular character
-                AB -- NO --> BA["_putchar(format[i])"]
-                BA --> BB{"sum++ (keep track of sum)" }
+                AB -- NO --> BA["_putchar(format[i]);"]
+                BA --> BB{"sum++; (keep track of sum)" }
                     BB --> AA
             %% Loop End    
-            AA -- format[i] == '\0'--> H["va_end(ap)"]
+            AA -- format[i] == '\0';--> H["va_end(ap)"]
             H --> I[/"Return (sum);"/]
 
     %% Style
@@ -79,10 +163,16 @@ flowchart TB
     classDef connector fill:#F2F527,stroke:#1D4ED8,stroke-width:3px,color:#1E3A8A, font-size:18px;
 
     class A start;
-    class C,D,E,AC,ACA,AE,AF,AG,AH,AI,BA,H process;
+    class C,D,E,AC,ACB,ACC,AE,AF,AG,AH,AI,BA,H process;
     class AA loop;
     class B,G,I data;
-    class F,AB,AD,BB decision;
+    class F,AB,AD,ACA,BB decision;
     class AJ connector;
-```markdown
-!"C:\Users\PC\Downloads\diagram1.png
+```
+
+## Next Steps
+
+- Implement the advanced specifiers (`%b`, `%u`, `%o`, `%x`, pointers, etc.).
+- Expand the cases inside `test/` (long strings, `INT_MIN`/`INT_MAX`, missing arguments).
+- Finish the manual page and a flow diagram that illustrates the internal architecture.
+
