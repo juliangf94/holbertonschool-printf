@@ -27,6 +27,11 @@ The mandatory specifiers currently supported are:
 | `%s` | Prints a string. `NULL` prints `(null)`. | `print_string` |
 | `%d` / `%i` | Prints a signed decimal integer. | `print_int` / `print_int_helper` |
 | `%%` | Prints `%`. | `print_percent` |
+| `%u` |Prints an unsigned decimal integer. | `print_unsigned_int` |
+| `%o` | Prints an unsigned octal integer.  | `print_octal` |
+| `%x` | Prints an unsigned hexadecimal (lowercase). | `print_hex_lower` |
+| `%X` | Prints an unsigned hexadecimal (uppercase). | `print_hex_upper` |
+| `%p` | Prints a memory address/pointer (e.g., `0x7ffe637541f0`). | `print_pointer` |
 
 The dispatching logic lives in `select_type` (inside `_printf.c`) and relies on the `specifier_t` structure defined in `main.h`.
 
@@ -43,21 +48,21 @@ This split keeps parsing in `_printf.c` and rendering in `print_helpers.c`, whic
 
 ## Prerequisites
 
-- A C compiler (e.g., GCC).
+- A **C** compiler (e.g., GCC).
 
-- A UNIX-like environment (Linux, macOS, WSL).
+- A **UNIX-like** environment (Linux, macOS, WSL).
 
 ## Compilation
 
-To compile the `_printf project`, ensure you have all the necessary source files (`_printf.c`, `print_helpers.c`, and `main.h`) in the same directory. 
-Compile everything with `gcc` using the standard Holberton flags:
+To compile the **_printf project**, ensure you have all the necessary source files (`_printf.c`, `print_helpers.c`, and `main.h`) in the same directory. 
+Compile everything with **gcc** using the standard Holberton flags:
 
-1.  `Compile Object Files:` 
+1. Compile Object Files: 
 ```bash
 gcc -Wall -Wextra -Werror -pedantic -std=gnu89 -Wno-format *.c
 ```
 
-2. `Run Betty on the entire code base when needed:`
+2. Run **Betty** on the entire code base when needed:
 
 ```bash
 betty *.c *.h
@@ -68,7 +73,7 @@ The function prototype is:
 `int _printf(const char *format, ...);`
 It returns the number of characters printed (excluding the null byte).
 
-`main.c` demonstrates how `_printf` mirrors `printf` and returns the exact same character count:
+`main.c` demonstrates how **_printf** mirrors **printf** and returns the exact same character count:
 
 ```c
 #include "main.h"
@@ -100,14 +105,15 @@ Both calls printed 42 and 42 chars
 | --- | --- |
 | `main.h` | Public prototypes, definition of `specifier_t`, signatures for every helper. |
 | `_printf.c` | Implementation of `_printf` and the dispatcher. |
-| `print_helpers.c` | All helper functions dedicated to each format specifier. |
+| `print_helpers.c` | The first part of the helper functions dedicated to each format specifier. |
+| `print_helpers_2.c` | The second part of the helper functions dedicated to each format specifier. |
+| `print_base.c` | Contains the core helper functions responsible for converting and printing unsigned integers in octal (%o), lowercase hexadecimal (%x), and uppercase hexadecimal (%X) formats. |
 | `_putchar.c` | Low-level write wrapper around `write(2)`. |
 | `main.c` | Simple demo program comparing `_printf` to `printf`. |
 | `test/0-main.c` | Additional tests aligned with the Holberton checker. |
 
-
 # Man Page
-The dedicated `man_3_printf` page will be added once every mandatory conversion is implemented
+The complete _printf(3) man page is now available, detailing all implemented conversion specifiers.
 
 # Test
 - **Side-by-side comparison with `printf`**: `main.c` and `test/0-main.c` print identical strings through both functions and compare their return values.
@@ -127,18 +133,16 @@ flowchart TB
     A --> C["int _printf(const char *format, ...);"]
     B --> D["Initialize sum = 0 to keep track of everything printed."]
     D --> E["va_list, va_start(ap, format)"]
-    %%E --> F{"Is format == NULL?"}
-        %% NULL check
-        %% F -- YES --> G[/"return (-1)"/]
+        %% Structure of loop
         E --> AA(["Loop: (i = 0, format[i] != '\\0', i++)"])
             %% Loop start
             AA -- format[i] != '\0';--> AB{"Is format[i] == '%'; (directive)?"}
                 %% Directive found
                 AB -- YES --> AC["i++ (move i to specifier)"]
                 AC --> ACA{"Is format[i] == '\0'"}
-                ACA -- YES --> ACB["return (-1);"]
+                ACA -- YES --> ACB[/"return (-1);"/]
                 ACA --> ACC["update the character count (sum) with select_type function"]
-			ACC --> AD{"Which specifier is it? c, s, %, i, d, i, u, o, x, X, p, r"}
+                        ACC --> AD{"Which specifier is it?"}
                             AD --> AE[" 
                             -'c' print a character.<br/>
                             -'s' print a string<br/>
@@ -150,12 +154,12 @@ flowchart TB
                             -'x' print an unsigned hexadecimal<br/>
                             -'X' print an unsigned hexadecimal<br/>
                             -'p' print a memory address/pointer<br/>
-                            -'r' print an %r/unknown<br/>
                             "]
-                       AE & AF --> AJ(("Keeps track of sum")) 
-                       AJ --> AA
-
-		%% Directive not found, prints regular character
+                            AD --> ADA["Any other specifier"] 
+                            ADA--> ADB["_puthcar('%');<BR/> _putchar(type); "] --> ADC[/"return (2);"/] 
+                        AE & AF & ADC --> AG(("Keeps track of sum")) 
+                        AG --> AA
+                %% Directive not found, prints regular character
                 AB -- NO --> BA["_putchar(format[i]);"]
                 BA --> BB{"sum++; (keep track of sum)" }
                     BB --> AA
@@ -172,16 +176,9 @@ flowchart TB
     classDef connector fill:#F2F527,stroke:#1D4ED8,stroke-width:3px,color:#1E3A8A, font-size:18px;
 
     class A start;
-    class C,D,E,AC,ACB,ACC,AE,AF,BA,H process;
+    class C,D,E,AC,ACC,ADA,ADB,AE,AF,BA,H process;
     class AA loop;
-    class B,G,I data;
+    class B,I,ACB,ADC data;
     class F,AB,AD,ACA,BB decision;
-    class AJ connector;
+    class AG connector;
 ```
-
-## Next Steps
-
-- Implement the advanced specifiers (`%b`, `%u`, `%o`, `%x`, pointers, etc.).
-- Expand the cases inside `test/` (long strings, `INT_MIN`/`INT_MAX`, missing arguments).
-- Finish the manual page and a flow diagram that illustrates the internal architecture.
-
