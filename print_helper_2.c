@@ -41,6 +41,6 @@ int print_address(va_list ap)
 
 	count += _putchar('0');
 	count += _putchar('x');
-	count += print_int_helper(addr, 16, "ABCDEF");
+	count += print_int_helper(addr, 16, "abcdef");
 	return (count);
 }
