@@ -138,15 +138,24 @@ flowchart TB
                 AC --> ACA{"Is format[i] == '\0'"}
                 ACA -- YES --> ACB["return (-1);"]
                 ACA --> ACC["update the character count (sum) with select_type function"]
-                        ACC --> AD{"Which specifier is it? c, s, %, i or d"}
-                            AD --> AE["'c' print a character"] & AF["'s' print a string"] & AG["'%' print an percent"] & AH["'d' print a decimal"] & AI["'i' print an int"]
-                            AE --> AJ(("Keeps track of sum"))
-                            AF --> AJ
-                            AG --> AJ
-                            AH --> AJ
-                            AI --> AJ
-                            AJ --> AA
-                %% Directive not found, prints regular character
+			ACC --> AD{"Which specifier is it? c, s, %, i, d, i, u, o, x, X, p, r"}
+                            AD --> AE[" 
+                            -'c' print a character.<br/>
+                            -'s' print a string<br/>
+                            -'%' print an percent<br/>
+                            -'d' print a decimal<br/>
+                            -'i' print an int<br/>"] & AF["
+                            -'u' print an unsgined decimal (lowercase)<br/>
+                            -'o' print an unsigned decimal (uppercase)<br/>
+                            -'x' print an unsigned hexadecimal<br/>
+                            -'X' print an unsigned hexadecimal<br/>
+                            -'p' print a memory address/pointer<br/>
+                            -'r' print an %r/unknown<br/>
+                            "]
+                       AE & AF --> AJ(("Keeps track of sum")) 
+                       AJ --> AA
+
+		%% Directive not found, prints regular character
                 AB -- NO --> BA["_putchar(format[i]);"]
                 BA --> BB{"sum++; (keep track of sum)" }
                     BB --> AA
@@ -163,7 +172,7 @@ flowchart TB
     classDef connector fill:#F2F527,stroke:#1D4ED8,stroke-width:3px,color:#1E3A8A, font-size:18px;
 
     class A start;
-    class C,D,E,AC,ACB,ACC,AE,AF,AG,AH,AI,BA,H process;
+    class C,D,E,AC,ACB,ACC,AE,AF,BA,H process;
     class AA loop;
     class B,G,I data;
     class F,AB,AD,ACA,BB decision;
