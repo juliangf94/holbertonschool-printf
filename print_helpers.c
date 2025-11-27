@@ -100,12 +100,12 @@ int print_int(va_list args)
 int print_int_helper(unsigned int int_to_print, unsigned int base,
 	char *after_nine)
 {
-	int count;
+	unsigned int count;
 
 	if (int_to_print != 0)
 	{
 		count = print_int_helper(int_to_print / base, base, after_nine);
-		if	((int_to_print % base) < 9)
+		if	((int_to_print % base) < 10)
 			_putchar((int_to_print % base) + '0');
 		else
 			_putchar(after_nine[(int_to_print % base) - 10]);
