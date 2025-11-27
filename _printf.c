@@ -52,6 +52,9 @@ int select_type(char type, va_list args)
 		{'i', print_int},
 		{'d', print_int},
 		{'u', print_unsigned_int},
+		{'o', print_octal},
+		{'x', print_hexa_lower},
+		{'X', print_hexa_upper},
 		{'%', print_percent},
 		{'\0', NULL},
 	};
