@@ -142,7 +142,7 @@ flowchart TB
                 AC --> ACA{"Is format[i] == '\0'"}
                 ACA -- YES --> ACB[/"return (-1);"/]
                 ACA --> ACC["update the character count (sum) with select_type function"]
-                        ACC --> AD{"Which specifier is it? c, s, %, i, d, i, u, o, x, X, p"}
+                        ACC --> AD{"Which specifier is it?"}
                             AD --> AE[" 
                             -'c' print a character.<br/>
                             -'s' print a string<br/>
@@ -155,8 +155,9 @@ flowchart TB
                             -'X' print an unsigned hexadecimal<br/>
                             -'p' print a memory address/pointer<br/>
                             "]
-                        AE & AF --> AJ(("Keeps track of sum")) 
-                        AJ --> AA
+                            AD --> ADA["Any other specifier"] --> ADB["_puthcar('%');<BR/> _putchar(type); "] 
+                        AE & AF & ADB --> AG(("Keeps track of sum")) 
+                        AG --> AA
                 %% Directive not found, prints regular character
                 AB -- NO --> BA["_putchar(format[i]);"]
                 BA --> BB{"sum++; (keep track of sum)" }
@@ -174,9 +175,9 @@ flowchart TB
     classDef connector fill:#F2F527,stroke:#1D4ED8,stroke-width:3px,color:#1E3A8A, font-size:18px;
 
     class A start;
-    class C,D,E,AC,ACC,AE,AF,BA,H process;
+    class C,D,E,AC,ACC,ADA,ADB,AE,AF,BA,H process;
     class AA loop;
     class B,I,ACB data;
     class F,AB,AD,ACA,BB decision;
-    class AJ connector;
+    class AG connector;
 ```
