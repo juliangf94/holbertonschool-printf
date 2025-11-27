@@ -12,10 +12,10 @@
  */
 int _printf(const char *format, ...)
 {
-	va_list ap;
+	va_list args;
 	int sum = 0, i;
 
-	va_start(ap, format);
+	va_start(args, format);
 	for (i = 0; format[i] != '\0'; i++)
 	{
 		if (format[i] == '%')
@@ -23,7 +23,7 @@ int _printf(const char *format, ...)
 			i++;
 			if (format[i] == '\0')
 				return (-1);
-			sum += select_type(format[i], ap);
+			sum += select_type(format[i], args);
 		}
 		else
 		{
@@ -31,18 +31,18 @@ int _printf(const char *format, ...)
 			sum++;
 		}
 	}
-	va_end(ap);
+	va_end(args);
 	return (sum);
 }
 
 /**
  * select_type - Selects and executes the correct print function.
  * @type: Format specifier to match.
- * @ap: va_list containing the argument to print.
+ * @args: va_list containing the argument to print.
  *
  * Return: Value returned by the matched print function.
  */
-int select_type(char type, va_list ap)
+int select_type(char type, va_list args)
 {
 	int i;
 	specifier_t funcs[] = {
@@ -50,6 +50,10 @@ int select_type(char type, va_list ap)
 		{'s', print_string},
 		{'i', print_int},
 		{'d', print_int},
+		{'u', print_unsigned_int},
+		{'o', print_octal},
+		{'x', print_hexa_lower},
+		{'X', print_hexa_upper},
 		{'%', print_percent},
 		{'p', print_address},
 		{'\0', NULL},
@@ -59,7 +63,7 @@ int select_type(char type, va_list ap)
 	{
 		if (funcs[i].type == type)
 		{
-			return (funcs[i].fonction(ap));
+			return (funcs[i].function(args));
 		}
 	}
 
