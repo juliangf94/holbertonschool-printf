@@ -19,7 +19,7 @@ int print_unsigned_int(va_list args)
 	}
 	else
 	{
-		count += print_int_helper(int_to_print);
+		count += print_int_helper(int_to_print, 10, "");
 	}
 
 	return (count);
@@ -35,32 +35,12 @@ int print_unsigned_int(va_list args)
  */
 int print_address(va_list ap)
 {
-	void *ptr = va_arg(ap, void *); 
+	void *ptr = va_arg(ap, void *);
 	unsigned long int addr = (unsigned long int) ptr;
 	int count = 0;
 
 	count += _putchar('0');
 	count += _putchar('x');
-	count += _print_hex_long(addr);
+	count += print_int_helper(addr, 16, "abcdef");
 	return (count);
-}
-
-
-/**
- * _print_hex_long - Prints
- * @n: 
- *
- * Return:
- */
-int _print_hex_long(unsigned long int n)
-{
-	unsigned long int temp = n;
-	int count;
-	char hex_chars[] = "0123456789abcdef";
-
-	if (temp / 16)
-		count += _print_hex_long(temp / 16);
-		return (count + 1);
-	 _putchar(hex_chars[temp % 16]);
-	return (0);
 }
