@@ -3,29 +3,29 @@
 
 /**
  * print_char - Prints a char from a va_list.
- * @ap: va_list containing the char to print.
+ * @args: va_list containing the char to print.
  *
  * Return: number of charaters printed
  */
-int print_char(va_list ap)
+int print_char(va_list args)
 {
-	_putchar(va_arg(ap, int));
+	_putchar(va_arg(args, int));
 
 	return (1);
 }
 
 /**
  * print_string - Prints a string from a va_list.
- * @ap: va_list containing the string to print.
+ * @args: va_list containing the string to print.
  *
  * Description: Prints (nil) if the string is NULL.
  * Return: number of charaters printed
  */
-int print_string(va_list ap)
+int print_string(va_list args)
 {
 	int i;
 	char *str_null = "(null)";
-	char *string = va_arg(ap, char*);
+	char *string = va_arg(args, char*);
 
 	if (string != NULL)
 		for (i = 0; string[i] != '\0'; i++)
@@ -43,13 +43,13 @@ int print_string(va_list ap)
 
 /**
  * print_percent - Prints a percent sign.
- * @ap: va_list (not used).
+ * @args: va_list (not used).
  *
  * Return: number of charaters printed
  */
-int print_percent(va_list ap)
+int print_percent(va_list args)
 {
-	(void)ap;
+	(void)args;
 	_putchar('%');
 
 	return (1);
@@ -57,13 +57,13 @@ int print_percent(va_list ap)
 
 /**
  * print_int - Prints a integer.
- * @ap: va_list (not used).
+ * @args: va_list (not used).
  *
  * Return: number of charaters printed
  */
-int print_int(va_list ap)
+int print_int(va_list args)
 {
-	int number = va_arg(ap, int);
+	int number = va_arg(args, int);
 	unsigned int int_to_print;
 	unsigned int count = 0;
 
