@@ -51,6 +51,7 @@ int select_type(char type, va_list args)
 		{'s', print_string},
 		{'i', print_int},
 		{'d', print_int},
+		{'u', print_unsigned_int},
 		{'%', print_percent},
 		{'\0', NULL},
 	};

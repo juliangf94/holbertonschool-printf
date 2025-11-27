@@ -18,11 +18,13 @@ int _putchar(char c);
 
 int _printf(const char *format, ...);
 int select_type(char type, va_list args);
-/** */
+/** print_helper.c */
 int print_char(va_list args);
 int print_string(va_list args);
 int print_percent(va_list args);
 int print_int(va_list args);
 int print_int_helper(unsigned int int_to_print);
+/** print_helper_2.c */
+int print_unsigned_int(va_list args);
 
 #endif
