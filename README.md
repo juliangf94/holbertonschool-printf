@@ -15,7 +15,6 @@ The _printf function is declared as follows:
 ```bash
 int _printf(const char *format, ...);
 ```
-It writes to stdout and returns the number of characters printed, just like the libc implementation.
 
 ## Supported Format Specifiers
 The _printf function writes to `stdout` and returns the number of characters printed, just like the libc implementation. 
