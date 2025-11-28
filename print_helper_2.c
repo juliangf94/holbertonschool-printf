@@ -2,8 +2,8 @@
 #include <stddef.h>
 
 /**
- * print_unsigned_int - Prints a integer.
- * @args: va_list (not used).
+ * print_unsigned_int - Prints a unsigned integer.
+ * @args: va_list.
  *
  * Return: number of charaters printed
  */

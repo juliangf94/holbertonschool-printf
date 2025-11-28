@@ -57,7 +57,7 @@ int print_percent(va_list args)
 
 /**
  * print_int - Prints a integer.
- * @args: va_list (not used).
+ * @args: va_list.
  *
  * Return: number of charaters printed
  */
