@@ -151,7 +151,7 @@ flowchart TB
                             -'u' print an unsgined decimal<br/>
                             -'o' print an unsigned octal<br/>
                             -'x' print an unsigned hexadecimal (lowercase)<br/>
-                            -'X' print an unsigned hexadecimal (uppercase<br/>
+                            -'X' print an unsigned hexadecimal (uppercase)<br/>
                             -'p' print a memory address/pointer<br/>
                             "]
                             AD --> ADA["Any other specifier"] 
