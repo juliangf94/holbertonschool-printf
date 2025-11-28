@@ -1,0 +1,51 @@
+TH _PRINTF 3 "NOVEMBER 28, 2025" "Manual" "Custom C Library Functions"
+.SH NAME
+_printf - formatted output conversion
+
+_printf writes to `stdout` and returns the number of characters printed, just like the libc implementation.
+
+.SH SYNOPSIS
+#include "main.h"
+
+int _printf (const char *format, ...);
+
+.SH DESCRIPTION
+The _printf() functions is a simplified custom implementation of the standard C library function printf().
+It writes a character string to the standard output, processing variadic arguments according to the conversion directives found in the format string.
+
+A conversion directive begins with the % symbol and is followed by a specifier that determines how the corresponding argument should be formatted.
+
+.SS Conversion Specifiers
+The following conversion specifiers are currently supported:
+.TP 
+.B c: Prints the `int` argument as a single character.
+.TP 
+.B s: Prints the `char *` (string) argument up to the terminating null byte (`\0`). If the pointer is `NULL`, it prints "(null)".
+.TP 
+.B %: Prints a single percent characer ('%').
+.TP 
+.B d, i:Prints the `int` argument in signed decimal format.
+
+.SS FLAGS, FIELD WIDTH, PRECISION, LENGTH MODIFIER 
+Currently, this version of .B _printf() does not support flags, minimum field width, precision, or length modifiers (e.g. #, +, 0, l, h),
+
+.SH RETURN VALUE  
+Upon successful return, the _printf() function returns the number of characters printed (excluding the null byte used to end output to strings).
+If an output errors occurs or if the format string is NULL, the function returns -1.
+
+.SH EXAMPLES
+.nf .RS .B /*Example 1: To print a character and a integer/ 
+.B #include main.h 
+.B int chars_printed = _printf("The year is %d and the initial is %c\n", 2025, 'J');
+/Output: The year is 2025 and the initial is J */
+.B _printf("Characters printed in this example: %d\n", chars_printed)
+/Output: Characters printed in this example: 38 */
+
+.SH DATE
+NOVEMBER 28, 2025
+
+.SH AUTHORS
+Yonas HOURIEZ
+
+Julian GONZALEZ
+
