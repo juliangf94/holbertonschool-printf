@@ -2,8 +2,8 @@
 #include <stddef.h>
 
 /**
- * print_octal - Prints a integer.
- * @args: va_list (not used).
+ * print_octal - Prints a integer in octal.
+ * @args: va_list.
  *
  * Return: number of charaters printed
  */
