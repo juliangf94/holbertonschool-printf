@@ -1,51 +1,89 @@
-TH _PRINTF 3 "NOVEMBER 28, 2025" "Manual" "Custom C Library Functions"
+.TH _PRINTF 3 "NOVEMBER 28, 2025" "Manual" "Custom C Library Functions"
 .SH NAME
 _printf - formatted output conversion
 
 _printf writes to `stdout` and returns the number of characters printed, just like the libc implementation.
 
 .SH SYNOPSIS
-#include "main.h"
-
-int _printf (const char *format, ...);
+.B #include "main.h"
+.PP
+.B int _printf (const char *format, ...);
 
 .SH DESCRIPTION
-The _printf() functions is a simplified custom implementation of the standard C library function printf().
-It writes a character string to the standard output, processing variadic arguments according to the conversion directives found in the format string.
+The \fB_printf\fR() function is a simplified custom implementation of the standard C library function \fBprintf\fR().
+It writes a character string to the standard output, processing variadic arguments according to the conversion directives found in the \fIformat\fR string.
 
 A conversion directive begins with the % symbol and is followed by a specifier that determines how the corresponding argument should be formatted.
 
 .SS Conversion Specifiers
 The following conversion specifiers are currently supported:
+.TP
+.B c 
+Prints the \fIint\fR argument as a single character. 
 .TP 
-.B c: Prints the `int` argument as a single character.
+.B s
+Prints the \fIchar *\fR (string) argument up to the terminating null byte (\fB\e0\fR). If the pointer is \fBNULL\fR, it prints "(null)". 
 .TP 
-.B s: Prints the `char *` (string) argument up to the terminating null byte (`\0`). If the pointer is `NULL`, it prints "(null)".
+.B %
+Prints a single percent characer ('%').
 .TP 
-.B %: Prints a single percent characer ('%').
-.TP 
-.B d, i:Prints the `int` argument in signed decimal format.
+.B d, i
+Prints the \fIint\fR argument in signed decimal format.
+.TP
+.B u
+Prints the \fIunsigned int\fR argument in unsigned decimal format.
+.TP
+.B o
+Prints the \fIunsigned int\fR argument in unsigned octal format.
+.TP
+.B x
+Prints the \fIunsigned int\fR argument in unsigned hexadecimal format, using lowercase letters (\fBa-f\fR).
+.TP
+.B X
+Prints the \fIunsigned int\fR argument in unsigned hexadecimal format, using uppercase letters (\fBA-F\fR).
+.TP
+.B p
+Prints the \fIvoid *\fR (pointer) argument in hexadecimal format (e.g., \fB0x7ffe637541f0\fR).
 
 .SS FLAGS, FIELD WIDTH, PRECISION, LENGTH MODIFIER 
-Currently, this version of .B _printf() does not support flags, minimum field width, precision, or length modifiers (e.g. #, +, 0, l, h),
+Currently, this version of \fB_printf\fR() does not support flags, minimum field width, precision, or length modifiers (e.g. \fB#\fR, \fB+\fR, \fB0\fR, \fBl\fR, \fBh\fR).
 
 .SH RETURN VALUE  
-Upon successful return, the _printf() function returns the number of characters printed (excluding the null byte used to end output to strings).
-If an output errors occurs or if the format string is NULL, the function returns -1.
+Upon successful return, the \fB_printf\fR() function returns the number of characters printed (excluding the null byte used to end output to strings).
+.PP
+If an output errors occurs or if the format string is \fBNULL\fR, the function returns \fB-1\fR.
+.PP
+If an unknown conversion specifier is encountered (e.g., \fB%z\fR), \fB_printf\fR() prints the literal sequence (\fB%z\fR) and returns the count of the characters printed (\fB2\fR).
 
 .SH EXAMPLES
-.nf .RS .B /*Example 1: To print a character and a integer/ 
-.B #include main.h 
-.B int chars_printed = _printf("The year is %d and the initial is %c\n", 2025, 'J');
+.EX
+/* Example 1: To print a character and a integer/ 
+#include main.h 
+int chars_printed = _printf("The year is %d and the initial is %c\n", 2025, 'J');
 /Output: The year is 2025 and the initial is J */
-.B _printf("Characters printed in this example: %d\n", chars_printed)
+_printf("Characters printed in this example: %d\n", chars_printed)
 /Output: Characters printed in this example: 38 */
+.EE
+.EX
+/* Example 2: Basic types and return value check /
+#include "main.h"
+int count_d = _printf("The year is %d and the initial is %c\n", 2025, 'J');
+/ Output: The year is 2025 and the initial is J /
+_printf("Characters printed in this example: %d\n", count_d);
+/ Output: Characters printed in this example: 38 /
+.EE
+.EX
+/ Example 2: Unsigned and Hexadecimal /
+unsigned int num = 12345;
+_printf("Decimal: %u | Octal: %o | Hex (lower): %x | Hex (upper): %X\n", num, num, num, num);
+/ Output: Decimal: 12345 | Octal: 30071 | Hex (lower): 3039 | Hex (upper): 3039 /
+.EE
 
 .SH DATE
 NOVEMBER 28, 2025
 
 .SH AUTHORS
 Yonas HOURIEZ
-
+.br
 Julian GONZALEZ
 
