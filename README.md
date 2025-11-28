@@ -148,10 +148,10 @@ flowchart TB
                             -'%' print an percent<br/>
                             -'d' print a decimal<br/>
                             -'i' print an int<br/>"] & AF["
-                            -'u' print an unsgined decimal (lowercase)<br/>
-                            -'o' print an unsigned decimal (uppercase)<br/>
-                            -'x' print an unsigned hexadecimal<br/>
-                            -'X' print an unsigned hexadecimal<br/>
+                            -'u' print an unsgined decimal<br/>
+                            -'o' print an unsigned octal<br/>
+                            -'x' print an unsigned hexadecimal (lowercase)<br/>
+                            -'X' print an unsigned hexadecimal (uppercase<br/>
                             -'p' print a memory address/pointer<br/>
                             "]
                             AD --> ADA["Any other specifier"] 
