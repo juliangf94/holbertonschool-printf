@@ -181,3 +181,8 @@ flowchart TB
     class F,AB,AD,ACA,BB decision;
     class AG connector;
 ```
+---
+
+# Authors
+- Yonas	Houriez
+- Julian GONZALEZ
